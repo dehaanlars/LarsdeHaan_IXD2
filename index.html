@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="utf-utf-8"/>
+     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+      	<title>Lars de Haan</title>
+      	<link rel="stylesheet" type="text/css" href="style/style.css">
+      	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      	<script>
+      		function startTime() {
+			  var today = new Date();
+			  var h = today.getHours();
+			  var m = today.getMinutes();
+			  var s = today.getSeconds();
+			  m = checkTime(m);
+			  s = checkTime(s);
+			  document.getElementById('txt').innerHTML =
+			  h + ":" + m + ":" + s;
+			  var t = setTimeout(startTime, 500);
+			}
+
+			function checkTime(i) {
+			  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+			  return i;
+			}	
+
+			google.charts.load('current', {'packages':['corechart']});
+		    google.charts.setOnLoadCallback(drawFuelChart);
+		    google.charts.setOnLoadCallback(drawBatteryChart);
+		    google.charts.setOnLoadCallback(drawChargingChart);
+
+		    function drawFuelChart() {
+		    	var data = new google.visualization.DataTable();
+		    	data.addColumn('string','Fuel');
+		    	data.addColumn('number','Amount');
+		    	data.addRows([
+		    		['Fuel', 80],
+		    		['Empty', 20]
+		    	]);
+
+		    	var options = {
+		    		pieHole: 0.5,
+		    		legend: 'none',
+		    		colors:['#005288','white'],
+		    		fontName: 'Poppins',
+		    		animation:{
+						"startup": true,
+				        duration: 1000,
+				        easing: 'out'
+				    }
+		    	};
+
+		    	var chart = new google.visualization.PieChart(document.getElementById('fuel_amount'));
+		    	chart.draw(data, options);
+		    }
+
+		    function drawBatteryChart() {
+			     var data = google.visualization.arrayToDataTable([
+			       ["BatteryNumber", "Charge", { role: "style" } ],
+			       ["Battery 1", 8.94, "#E2DCDE"],
+			       ["Battery 2", 10.49, "#E2DCDE"],
+			       ["Battery 3", 19.30, "#E2DCDE"],
+			       ["Battery 4", 21.45, "#E2DCDE"],
+			       ["Battery 5", 8.94, "#E2DCDE"],
+			       ["Battery 6", 10.49, "#E2DCDE"],
+			       ["Battery 7", 100.00, "#84DD63"],
+			       ["Battery 8", 100.00, "#84DD63"]
+			    ]);
+
+			    var view = new google.visualization.DataView(data);
+			      view.setColumns([0, 1,
+	                       {	calc: "stringify",
+	                     	  	sourceColumn: 1,
+			                    type: "string",
+			                    role: "annotation" },
+			                       2]);
+
+			      var options = {
+			        bar: {groupWidth: "50%"},
+			        legend: { position: "none" },
+			        fontName: 'Poppins',
+			        animation:{
+						"startup": true,
+				        duration: 1000,
+				        easing: 'out'
+				    }
+			      };
+			      var chart = new google.visualization.BarChart(document.getElementById("battery_charge"));
+			      chart.draw(view, options);
+		    }	
+
+		    function drawChargingChart() {
+		    	var data = new google.visualization.DataTable();
+		    	data.addColumn('string','time');
+		    	data.addColumn('number', 'chargeamount');
+		    	data.addRows([
+		    		['00:00', 400],
+		    		['01:00', 203],
+		    		['02:00', 302],
+		    		['03:00', 312],
+		    		['04:00', 245],
+		    		['05:00', 412],
+		    		['06:00', 403],
+		    		['07:00', 402],
+		    		['08:00', 424],
+		    		['09:00', 378],
+		    		['10:00', 346],
+		    		['11:00', 345],
+		    		['12:00', 324],
+					['13:00', 256],
+		    		['14:00', 289],
+		    		['15:00', 299],
+		    		['16:00', 312],
+		    		['17:00', 345],
+		    		['18:00', 211],
+		    		['19:00', 345],
+		    		['20:00', 289],
+		    		['21:00', 412],
+		    		['22:00', 401],
+		    		['23:00', 403],
+		    		]);
+
+		    	var options = {
+		   			legend: 'none',
+		   			fontName: 'Poppins',
+					animation:{
+						"startup": true,
+				        duration: 1000,
+				        easing: 'out'
+				    },
+				    colors: ['#005288'] 
+		    	};
+
+		    	var chart = new google.visualization.AreaChart(document.getElementById('charging'));
+		    	chart.draw(data, options);
+		    }
+
+	      </script>
+	</head>
+	
+	<body onload="startTime()">
+		<header>
+			<h1 id="txt"></h1>
+			<h2>CET</h2>
+			<img src="images/spacex.png">
+		</header>	
+		<div class="wrapper">
+			<div id="content1" class="content">
+				<h3>Fuel</h3>
+				<div id="fuel_amount"></div>
+			</div>
+
+			<div id="content2" class="content">
+				<h3>Battery Charge</h3>
+				<div id="battery_charge"></div>
+			</div>	
+
+			<div id="content3" class="content">
+				<h3>Charging Status</h3>
+				<div id="charging"></div>
+			</div>	
+	
+
+		</div>	
+		<footer>
+			<p>A design by Lars de Haan</p>
+			<img src="images/spacex.png">
+		</footer>	
+	</body>	
+</html>
